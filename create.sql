@@ -13,7 +13,7 @@ CREATE TABLE symptoms (
     age INTEGER NOT NULL,
     weight INTEGER NOT NULL,
     height INTEGER NOT NULL,
-    temperature INTEGER NOT NULL,
+    temperature FLOAT NOT NULL,
     sp02 INTEGER NOT NULL,
     gender INTEGER NOT NULL,
     fever INTEGER NOT NULL,
