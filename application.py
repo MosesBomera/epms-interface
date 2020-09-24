@@ -3,8 +3,10 @@ from flask import Flask, session, render_template, request, redirect, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from util import logged_in
 import requests
+
+from util import logged_in
+from predict import predict
 
 app = Flask(__name__)
 
@@ -115,8 +117,12 @@ def home():
         db.commit()
 
         # Prediction
+        features = {"age": [age], "gender": [gender], "weight": [weight], "height": [height], \
+                    "temperature": [temperature], "fever": [fever], "cough": [cough], \
+                    "runny_nose": [runny_nose], "headache": [headache], \
+                    "muscle_aches": [muscle_aches], "sp02": [sp02], "fatigue": [fatigue]}
 
-        prediction = 'Not Yet Implemented:-('
+        prediction = predict(features)
         return render_template("prediction.html", prediction=prediction)
 
 
