@@ -12,6 +12,15 @@
   {% endblock%}
 
   <div class="prediction">
-    {{ prediction }}
+
+    {% if prediction == "Negative" %}
+      <div class="alert alert-success" role="alert">
+          {{ prediction }}
+      </div>
+    {% else %}
+      <div class="alert alert-danger" role="alert">
+        {{ prediction }}
+      </div>
+    {% endif %}
   </div>
 {% endblock %}
