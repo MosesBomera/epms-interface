@@ -27,19 +27,69 @@ def index():
     """Renders the home page with the login form."""
     # Already login
     if 'username' in session:
-        # username = session['username']
-        # full_name = session['full_name']
-        # return render_template("home.html")
-        pass
+        username = session['username']
+        full_name = session['full_name']
+        return render_template("home.html",
+                                full_name=full_name)
 
     # Regular login
     if request.method == "POST":
-        # username = request.form.get("username")
-        # password = request.form.get("password")
+        username = request.form.get("username")
+        password = request.form.get("password")
 
         # Check database
-        pass
+        # retrieve details based on the username
+        user = db.execute("SELECT id, full_name, username, password FROM users WHERE username = :username",
+                    {'username': username}).fetchone()
 
+        # If user doesn't exist
+        if user is None:
+            return render_template("index.html", error="Invalid Crendentials")
+        else:
+            password_check = user.password == password
+            if password_check:
+                session['username'] = user.username
+                session['full_name'] = user.full_name
+                session['id'] = user.id
+                return render_template("home.html",
+                                    full_name=user.full_name)
+            else:
+                return render_template("index.html",
+                                        error="Invalid Password or Username")
     # First page visit
     if request.method == "GET":
         return render_template("index.html")
+
+
+@app.route("logout")
+@logged_in
+def logout():
+    """Logout functionality for the website"""
+    # 'Destroy'  user credentials
+    session.pop('username', None)
+    session.pop('full_name', None)
+    session.pop('id', None)
+
+    return render_template("index.html",
+                        message="Logged Out!")
+
+
+@app.route("/home", methods=['POST', 'GET'])
+@logged_in
+def home():
+    """
+        The main page of the application.
+    """
+    username = session['username']
+    full_name = session['full_name']
+
+    # Display form if a GET method
+    if request.method == 'GET':
+        return render_template("home.index",
+                    full_name=full_name)
+
+    if request.method == 'POST':
+        # Perform prediction
+        prediction = ''
+        return render_template("prediction.html",
+                                prediction=prediction)
