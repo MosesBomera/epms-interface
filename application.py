@@ -81,7 +81,7 @@ def home():
 
     # Display form if a GET method
     if request.method == 'GET':
-        return render_template("home.index",
+        return render_template("home.html",
                     full_name=full_name)
 
     if request.method == 'POST':
@@ -114,8 +114,9 @@ def home():
                      "muscle_aches": muscle_aches, "sp02": sp02, "fatigue": fatigue})
         db.commit()
 
+        # Prediction
 
-        prediction = ''
+        prediction = 'Not Yet Implemented:-('
         return render_template("prediction.html", prediction=prediction)
 
 
