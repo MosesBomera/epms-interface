@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block body %}
+{% include 'partials/navbar.html' %}
+
 <div id="home">
   <div class="symptom-form">
     {% block heading %}
@@ -14,99 +16,197 @@
     <!-- The form -->
     <form action="{{ url_for('home') }}" method="post">
       <!-- Age -->
-      <div class="form-group">
-        <label for="age">Age:</label><br>
-        <input class="form-control" type="number" name="age" placeholder="What is your age?" required>
+      <div class="form-group row">
+        <label for="age" class="col-sm-2 col-form-label">Age</label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control" name="age" placeholder="What is your age?" required>
+        </div>
       </div>
 
       <!-- Gender -->
-      <div class="form-group">
-        <label for="gender">Gender:</label><br>
-          <label for="female">Female</label><br>
-          <input class="form-control" type="radio" name="gender" value="female" required>
-          <label for="male">Male</label><br>
-          <input class="form-control" type="radio" name="gender" value="male" required>
-      </div>
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Gender</legend>
+          <div class="col-sm-10">
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" value="female" required>
+              <label class="form-check-label" for="female">
+                Female
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="gender"  value="male">
+              <label class="form-check-label" for="male">
+                Male
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
 
       <!-- Weight -->
-      <div class="form-group">
-        <label for="weight">Weight (kgs):</label><br>
-        <input class="form-control" type="number" name="weight" placeholder="What is your weight?" required>
+      <div class="form-group row">
+        <label for="weight" class="col-sm-2 col-form-label">Weight (Kgs)</label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control" name="weight" placeholder="What is your weight?" required>
+        </div>
       </div>
 
       <!-- Height -->
-      <div class="form-group">
-        <label for="height">Height (cm):</label><br>
-        <input class="form-control" type="number" name="height" placeholder="What is your height?" required>
+      <div class="form-group row">
+        <label for="height" class="col-sm-2 col-form-label">Height (cm)</label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control" name="height" placeholder="What is your height?" required>
+        </div>
       </div>
 
       <!-- Temperature -->
-      <div class="form-group">
-        <label for="temperature">Temperature:</label><br>
-        <input class="form-control" type="text" name="temperature" placeholder="Your temperature?" required>
+      <div class="form-group row">
+        <label for="temperature" class="col-sm-2 col-form-label">Temperature</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="temperature" placeholder="Your temperature?" required>
+        </div>
       </div>
 
       <!-- sp02 -->
-      <div class="form-group">
-        <label for="sp02">Pulse Oximetry:</label><br>
-        <input class="form-control" type="number" name="sp02" placeholder="Pulse Oximetry Levels?" required>
+      <div class="form-group row">
+        <label for="age" class="col-sm-2 col-form-label">Sp02</label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control" name="sp02" placeholder="Pulse Oximetry Level?" required>
+        </div>
       </div>
 
       <!-- Fever -->
-      <div class="form-group">
-        <label for="fever">Fever:</label><br>
-          <label for="yes">Yes</label><br>
-          <input class="form-control" type="radio" name="fever" value="yes" required>
-          <label for="no">No</label><br>
-          <input class="form-control" type="radio" name="fever" value="no" required>
-      </div>
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Fever</legend>
+          <div class="col-sm-10">
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="fever" value="yes" required>
+              <label class="form-check-label" for="yes">
+                Yes
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="fever"  value="no" reuired>
+              <label class="form-check-label" for="no">
+                No
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
 
       <!-- Cough -->
-      <div class="form-group">
-        <label for="cough">Cough:</label><br>
-          <label for="yes">Yes</label><br>
-          <input class="form-control" type="radio" name="cough" value="yes" required>
-          <label for="no">No</label><br>
-          <input class="form-control" type="radio" name="cough" value="no" required>
-      </div>
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Cough</legend>
+          <div class="col-sm-10">
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="cough" value="yes" required>
+              <label class="form-check-label" for="yes">
+                Yes
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="cough"  value="no" reuired>
+              <label class="form-check-label" for="no">
+                No
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
 
       <!-- Runny Nose -->
-      <div class="form-group">
-        <label for="runny_nose">Runny Nose:</label><br>
-          <label for="yes">Yes</label><br>
-          <input class="form-control" type="radio" name="runny_nose" value="yes" required>
-          <label for="no">No</label><br>
-          <input class="form-control" type="radio" name="runny_nose" value="no" required>
-      </div>
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Runny Nose</legend>
+          <div class="col-sm-10">
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="runny_nose" value="yes" required>
+              <label class="form-check-label" for="yes">
+                Yes
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="runny_nose"  value="no" reuired>
+              <label class="form-check-label" for="no">
+                No
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
 
       <!-- Headache -->
-      <div class="form-group">
-        <label for="headache">Headache:</label><br>
-          <label for="yes">Yes</label><br>
-          <input class="form-control" type="radio" name="headache" value="yes" required>
-          <label for="no">No</label><br>
-          <input class="form-control" type="radio" name="headache" value="no" required>
-      </div>
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Headache</legend>
+          <div class="col-sm-10">
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="headache" value="yes" required>
+              <label class="form-check-label" for="yes">
+                Yes
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="headache"  value="no" reuired>
+              <label class="form-check-label" for="no">
+                No
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
 
-      <!-- Muscle Aches -->
-      <div class="form-group">
-        <label for="muscle_aches">Muscle Aces:</label><br>
-          <label for="yes">Yes</label><br>
-          <input class="form-control" type="radio" name="muscle_aches" value="yes" required>
-          <label for="no">No</label><br>
-          <input class="form-control" type="radio" name="muscle_aches" value="no" required>
-      </div>
+      <!-- Muscle Ache -->
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Muscle Ache</legend>
+          <div class="col-sm-10">
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="muscle_aches" value="yes" required>
+              <label class="form-check-label" for="yes">
+                Yes
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="muscle_aches"  value="no" reuired>
+              <label class="form-check-label" for="no">
+                No
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
 
       <!-- Fatigue -->
-      <div class="form-group">
-        <label for="fatigue">Cough:</label><br>
-          <label for="yes">Yes</label><br>
-          <input class="form-control" type="radio" name="fatigue" value="yes" required>
-          <label for="no">No</label><br>
-          <input class="form-control" type="radio" name="fatigue" value="no" required>
-      </div>
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Muscle Ache</legend>
+          <div class="col-sm-10">
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="fatigue" value="yes" required>
+              <label class="form-check-label" for="yes">
+                Yes
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <input class="form-check-input" type="radio" name="fatigue"  value="no" reuired>
+              <label class="form-check-label" for="no">
+                No
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
 
-      <button class="btn btn-primary">Predict</button>
+      <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">Predict</button>
+    </div>
+  </div>
 
     </form>
   </div>
