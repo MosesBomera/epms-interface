@@ -86,5 +86,37 @@ def home():
 
     if request.method == 'POST':
         # Perform prediction
+        age = int(request.form.get("age"))
+        gender = request.form.get("gender")
+        gender = 1 if gender == 'female' else 0
+
+        weight = int(request.form.get("weight"))
+        height = int(request.form.get("height"))
+        temperature = int(request.form.get("temperature"))
+
+        fever = binarize(request.form.get("fever"))
+        cough = binarize(request.form.get("cough"))
+        runny_nose = binarize(request.form.get("runny_nose"))
+        headache = binarize(request.form.get("headache"))
+        muscle_aches = binarize(request.form.get("muscle_aches"))
+        fatigue = binarize(request.form.get("fatigue"))
+
+        # Save the features into the database
+        db.execute("INSERT INTO users (age, gender, weight, height, temperature, fever, \
+                                       cough, runny_nose, headache, muscle_aches, fatigue) \
+                    VALUES (:age, :gender, :weight, :height, :temperature, :fever, \
+                                     :cough, :runny_nose, :headache, :muscle_aches, :fatigue)", \
+                    {"age": age, "gender": gender, "weight": weight, "height": height, \
+                     "temperature": temperature, "fever": fever, "cough": cough, \
+                     "runny_nose": runny_nose, "headache": headache, \
+                     "muscle_aches": muscle_aches, "fatigue": fatigue})
+        db.commit()
+
+        
         prediction = ''
         return render_template("prediction.html", prediction=prediction)
+
+
+def binarize(string):
+    """Convert string to 1 or 0 depending on its value."""
+    return 1 if string == 'yes' else 0
