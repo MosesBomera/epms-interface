@@ -92,7 +92,9 @@ def home():
 
         weight = int(request.form.get("weight"))
         height = int(request.form.get("height"))
-        temperature = int(request.form.get("temperature"))
+        temperature = request.form.get("temperature")
+        temperature = float(f"{temperature}")
+        sp02 = int(request.form.get("sp02"))
 
         fever = binarize(request.form.get("fever"))
         cough = binarize(request.form.get("cough"))
@@ -102,17 +104,17 @@ def home():
         fatigue = binarize(request.form.get("fatigue"))
 
         # Save the features into the database
-        db.execute("INSERT INTO users (age, gender, weight, height, temperature, fever, \
-                                       cough, runny_nose, headache, muscle_aches, fatigue) \
+        db.execute("INSERT INTO symptoms (age, gender, weight, height, temperature, fever, \
+                                       cough, runny_nose, sp02, headache, muscle_aches, fatigue) \
                     VALUES (:age, :gender, :weight, :height, :temperature, :fever, \
-                                     :cough, :runny_nose, :headache, :muscle_aches, :fatigue)", \
+                                     :cough, :runny_nose, :sp02, :headache, :muscle_aches, :fatigue)", \
                     {"age": age, "gender": gender, "weight": weight, "height": height, \
                      "temperature": temperature, "fever": fever, "cough": cough, \
                      "runny_nose": runny_nose, "headache": headache, \
-                     "muscle_aches": muscle_aches, "fatigue": fatigue})
+                     "muscle_aches": muscle_aches, "sp02": sp02, "fatigue": fatigue})
         db.commit()
 
-        
+
         prediction = ''
         return render_template("prediction.html", prediction=prediction)
 
