@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  COVID-19 Check?
+{% endblock %}
+
+{% block body %}
+<div id="home">
+  <div class="symptom-form">
+    {% block heading %}
+      <h1>COVID-19 Symptom Form</h1>
+    {% endblock %}
+
+    <!-- The form -->
+    <form action="{{ url_for('home') }}" method="post">
+      <!-- Age -->
+      <div class="form-group">
+        <label for="age">Age:</label><br>
+        <input class="form-control" type="number" name="age" placeholder="What is your age?" required>
+      </div>
+
+      <!-- Gender -->
+      <div class="form-group">
+        <label for="gender">Gender:</label><br>
+          <input class="form-control" type="radio" name="gender" value="female" required>
+          <label for="female">Female</label><br>
+          <input class="form-control" type="radio" name="gender" value="male" required>
+          <label for="male">Male</label><br>
+      </div>
+
+      <!-- Weight -->
+      <div class="form-group">
+        <label for="weight">Weight (kgs):</label><br>
+        <input class="form-control" type="number" name="weight" placeholder="What is your weight?" required>
+      </div>
+
+      <!-- Height -->
+      <div class="form-group">
+        <label for="height">Height (cm):</label><br>
+        <input class="form-control" type="number" name="height" placeholder="What is your height?" required>
+      </div>
+
+      <!-- Temperature -->
+      <div class="form-group">
+        <label for="temperature">Temperature:</label><br>
+        <input class="form-control" type="number" name="temperature" placeholder="Your temperature?" required>
+      </div>
+
+      <!-- sp02 -->
+      <div class="form-group">
+        <label for="sp02">Pulse Oximetry:</label><br>
+        <input class="form-control" type="number" name="sp02" placeholder="Pulse Oximetry Levels?" required>
+      </div>
+
+      <!-- Fever -->
+      <div class="form-group">
+        <label for="fever">Fever:</label><br>
+          <input class="form-control" type="radio" name="fever" value="yes" required>
+          <label for="yes">Yes</label><br>
+          <input class="form-control" type="radio" name="fever" value="no" required>
+          <label for="no">No</label><br>
+      </div>
+
+      <!-- Cough -->
+      <div class="form-group">
+        <label for="cough">Cough:</label><br>
+          <input class="form-control" type="radio" name="cough" value="yes" required>
+          <label for="yes">Yes</label><br>
+          <input class="form-control" type="radio" name="cough" value="no" required>
+          <label for="no">No</label><br>
+      </div>
+
+      <!-- Runny Nose -->
+      <div class="form-group">
+        <label for="runny_nose">Cough:</label><br>
+          <input class="form-control" type="radio" name="runny_nose" value="yes" required>
+          <label for="yes">Yes</label><br>
+          <input class="form-control" type="radio" name="runny_nose" value="no" required>
+          <label for="no">No</label><br>
+      </div>
+
+      <!-- Headache -->
+      <div class="form-group">
+        <label for="headache">Headache:</label><br>
+          <input class="form-control" type="radio" name="headache" value="yes" required>
+          <label for="yes">Yes</label><br>
+          <input class="form-control" type="radio" name="headache" value="no" required>
+          <label for="no">No</label><br>
+      </div>
+
+      <!-- Muscle Aches -->
+      <div class="form-group">
+        <label for="muscle_aches">Muscle Aches:</label><br>
+          <input class="form-control" type="radio" name="muscle_aches" value="yes" required>
+          <label for="yes">Yes</label><br>
+          <input class="form-control" type="radio" name="muscle_aches" value="no" required>
+          <label for="no">No</label><br>
+      </div>
+
+      <!-- Fatigue -->
+      <div class="form-group">
+        <label for="fatigue">Cough:</label><br>
+          <input class="form-control" type="radio" name="fatigue" value="yes" required>
+          <label for="yes">Yes</label><br>
+          <input class="form-control" type="radio" name="fatigue" value="no" required>
+          <label for="no">No</label><br>
+      </div>
+
+      <button class="btn btn-primary">Submit</button>
+
+    </form>
+  </div>
+</div>
+{% endblock %}

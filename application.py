@@ -29,8 +29,7 @@ def index():
     if 'username' in session:
         username = session['username']
         full_name = session['full_name']
-        return render_template("home.html",
-                                full_name=full_name)
+        return render_template("home.html", full_name=full_name)
 
     # Regular login
     if request.method == "POST":
@@ -39,7 +38,7 @@ def index():
 
         # Check database
         # retrieve details based on the username
-        user = db.execute("SELECT id, full_name, username, password FROM users WHERE username = :username",
+        user = db.execute("SELECT id, full_name, username, password FROM users WHERE username = :username", \
                     {'username': username}).fetchone()
 
         # If user doesn't exist
@@ -51,17 +50,15 @@ def index():
                 session['username'] = user.username
                 session['full_name'] = user.full_name
                 session['id'] = user.id
-                return render_template("home.html",
-                                    full_name=user.full_name)
+                return render_template("home.html", full_name=user.full_name)
             else:
-                return render_template("index.html",
-                                        error="Invalid Password or Username")
+                return render_template("index.html", error="Invalid Password or Username")
     # First page visit
     if request.method == "GET":
         return render_template("index.html")
 
 
-@app.route("logout")
+@app.route("/logout")
 @logged_in
 def logout():
     """Logout functionality for the website"""
@@ -70,8 +67,7 @@ def logout():
     session.pop('full_name', None)
     session.pop('id', None)
 
-    return render_template("index.html",
-                        message="Logged Out!")
+    return render_template("index.html", message="Logged Out!")
 
 
 @app.route("/home", methods=['POST', 'GET'])
@@ -91,5 +87,4 @@ def home():
     if request.method == 'POST':
         # Perform prediction
         prediction = ''
-        return render_template("prediction.html",
-                                prediction=prediction)
+        return render_template("prediction.html", prediction=prediction)
