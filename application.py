@@ -1,5 +1,6 @@
 import os
 from flask import Flask, session, render_template, request, redirect, jsonify
+from flask_mail import Mail, Message
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -8,7 +9,18 @@ import requests
 from util import logged_in
 from predict import predict
 
+# Initialize the application
 app = Flask(__name__)
+
+
+# EMAIL CONFIGURATION
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'epms.cedat@gmail.com'
+app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 # Check for environment variables
 if not os.getenv("DATABASE_URL"):
@@ -21,7 +33,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Set up database
-engine = create_engine(os.getenv("DATABASE_URL"), pool_size=20, max_overflow=0)
+engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/", methods=['POST', 'GET'])
@@ -87,11 +99,14 @@ def home():
                     full_name=full_name)
 
     if request.method == 'POST':
-        # Perform prediction
+        # Get patient details
+        name = request.form.get("name")
+        email = request.form.get("email")
         age = int(request.form.get("age"))
         gender = request.form.get("gender")
         gender = 1 if gender == 'female' else 0
 
+        # Symptoms
         weight = int(request.form.get("weight"))
         height = int(request.form.get("height"))
         temperature = request.form.get("temperature")
@@ -106,11 +121,11 @@ def home():
         fatigue = binarize(request.form.get("fatigue"))
 
         # Save the features into the database
-        db.execute("INSERT INTO symptoms (age, gender, weight, height, temperature, fever, \
+        db.execute("INSERT INTO patient (name, email, age, gender, weight, height, temperature, fever, \
                                        cough, runny_nose, sp02, headache, muscle_aches, fatigue) \
-                    VALUES (:age, :gender, :weight, :height, :temperature, :fever, \
+                    VALUES (:name, :email, :age, :gender, :weight, :height, :temperature, :fever, \
                                      :cough, :runny_nose, :sp02, :headache, :muscle_aches, :fatigue)", \
-                    {"age": age, "gender": gender, "weight": weight, "height": height, \
+                    {"name": name, "email": email, "age": age, "gender": gender, "weight": weight, "height": height, \
                      "temperature": temperature, "fever": fever, "cough": cough, \
                      "runny_nose": runny_nose, "headache": headache, \
                      "muscle_aches": muscle_aches, "sp02": sp02, "fatigue": fatigue})
@@ -123,6 +138,19 @@ def home():
                     "muscle_aches": [muscle_aches], "sp02": [sp02], "fatigue": [fatigue]}
 
         prediction = predict(features)
+
+        # Send email to the person that was screened.
+        msg = Message('COVID-19 Screening Results', sender = 'epms.cedat@gmail.com', recipients = [email])
+        msg.body = f"Hello {name}, your screening for COVID-19 returned {prediction}. \n\n EPMS Screening Team"
+        mail.send(msg)
+
+        # Save the prediction
+        db.execute("INSERT INTO predictions (prediction, email) \
+                    VALUES(:prediction, :email)", \
+                    {"prediction": prediction, "email": email})
+
+        db.commit()
+        
         return render_template("prediction.html", prediction=prediction)
 
 
