@@ -8,8 +8,10 @@ CREATE TABLE users (
 );
 
 /* covid-symptom table */
-CREATE TABLE symptoms (
-    subject_id SERIAL PRIMARY KEY,
+CREATE TABLE patient (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL, /* Add name field */
+    email VARCHAR NOT NULL, /* Add email field */
     age INTEGER NOT NULL,
     weight INTEGER NOT NULL,
     height INTEGER NOT NULL,
@@ -28,5 +30,5 @@ CREATE TABLE symptoms (
 CREATE TABLE predictions  (
     id SERIAL PRIMARY KEY,
     prediction INTEGER NOT NULL,
-    subject_id INTEGER REFERENCES symptoms(subject_id)
+    email VARCHAR REFERENCES patient(email)
 );
