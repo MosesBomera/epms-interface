@@ -15,6 +15,23 @@
 
     <!-- The form -->
     <form action="{{ url_for('home') }}" method="post">
+
+      <!-- Name -->
+      <div class="form-group row">
+        <label for="name" class="col-sm-2 col-form-label">Full Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="name" placeholder="Kindly, provide your name." required>
+        </div>
+      </div>
+
+       <!-- Email -->
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 col-form-label">Email Address</label>
+        <div class="col-sm-10">
+          <input type="email" class="form-control" name="email" placeholder="Kindly, provide your email to receive the results." required>
+        </div>
+      </div>
+
       <!-- Age -->
       <div class="form-group row">
         <label for="age" class="col-sm-2 col-form-label">Age</label>
